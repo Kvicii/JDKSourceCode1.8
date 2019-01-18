@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+.classpath
+.project
+.settings/
+.metadata
+*.iml
+*.class
+*.log
+*.jar
+*.war
+.DS_Store
+Desktop.ini
+Thumbs.db
+.idea/
+target/
+out/
+

@@ -71,7 +71,7 @@ public class ArrayList<E> extends AbstractList<E>
     /**
      * 带有容量initialCapacity的构造方法
      *
-     * @param 初始容量列表的初始容量
+     * @param initialCapacity 初始容量列表的初始容量
      * @throws IllegalArgumentException 如果指定容量为负
      */
     public ArrayList(int initialCapacity) {
@@ -105,6 +105,8 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public ArrayList(Collection<? extends E> c) {
         elementData = c.toArray();
+        // length   是数组的分配大小(可能有没有利用的空间)
+        // size     是数组的实际的元素个数
         if ((size = elementData.length) != 0) {
             // c.toarray可能（错误地）不返回对象[]（见JAVA BUG编号6260652）
             if (elementData.getClass() != Object[].class)
@@ -238,7 +240,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
-     * 是否包含一个数 返回bool
+     * 是否包含某个元素 返回boolean
      *
      * @param o 检测o是否为ArrayList中元素
      * @return true 如果ArrayList中包含o元素
@@ -246,7 +248,6 @@ public class ArrayList<E> extends AbstractList<E>
     public boolean contains(Object o) {
         return indexOf(o) >= 0;
     }
-
 
     /**
      * 返回一个值在数组首次出现的位置，会根据是否为null使用不同方式判断。不存在就返回-1。时间复杂度为O(N)
@@ -336,7 +337,6 @@ public class ArrayList<E> extends AbstractList<E>
         return a;
     }
 
-
     /**
      * 返回指定位置的值，因为是数组，所以速度特别快
      *
@@ -406,8 +406,8 @@ public class ArrayList<E> extends AbstractList<E>
         rangeCheckForAdd(index);
         // 扩容
         ensureCapacityInternal(size + 1);  // Increments modCount!!
-        //public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-        //src:源数组； srcPos:源数组要复制的起始位置； dest:目的数组； destPos:目的数组放置的起始位置； length:复制的长度
+        // public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+        // src:源数组； srcPos:源数组要复制的起始位置； dest:目的数组； destPos:目的数组放置的起始位置； length:复制的长度
         // 将elementData从index位置开始，复制到elementData的index+1开始的连续空间
         System.arraycopy(elementData, index, elementData, index + 1,
                 size - index);
@@ -466,7 +466,6 @@ public class ArrayList<E> extends AbstractList<E>
         return false;
     }
 
-
     /**
      * 快速删除指定位置的值，之所以叫快速，应该是不需要检查和返回值，因为只内部使用
      *
@@ -488,10 +487,10 @@ public class ArrayList<E> extends AbstractList<E>
     public void clear() {
         modCount++;
 
-        //便于垃圾回收器回收
+        // 便于垃圾回收器回收
         for (int i = 0; i < size; i++)
             elementData[i] = null;
-        //把size设置为0，以便我们不会浏览到null值的内存空间
+        // 把size设置为0，以便我们不会浏览到null值的内存空间
         size = 0;
     }
 
@@ -557,11 +556,11 @@ public class ArrayList<E> extends AbstractList<E>
      */
     protected void removeRange(int fromIndex, int toIndex) {
         modCount++;
-        int numMoved = size - toIndex;//后段保留的长度
+        int numMoved = size - toIndex;// 后段保留的长度
         System.arraycopy(elementData, toIndex, elementData, fromIndex,
                 numMoved);
 
-        //便于垃圾回收期回收
+        // 便于垃圾回收期回收
         int newSize = size - (toIndex - fromIndex);
         for (int i = newSize; i < size; i++) {
             elementData[i] = null;
@@ -668,8 +667,8 @@ public class ArrayList<E> extends AbstractList<E>
                 // clear to let GC do its work
                 for (int i = w; i < size; i++)
                     elementData[i] = null;
-                modCount += size - w;//改变的次数
-                //新的大小为保留的元素的个数
+                modCount += size - w;// 改变的次数
+                // 新的大小为保留的元素的个数
                 size = w;
                 modified = true;
             }
@@ -688,7 +687,7 @@ public class ArrayList<E> extends AbstractList<E>
             throws java.io.IOException {
         // Write out element count, and any hidden stuff
         int expectedModCount = modCount;
-        //执行默认的反序列化/序列化过程。将当前类的非静态和非瞬态字段写入此流
+        // 执行默认的反序列化/序列化过程。将当前类的非静态和非瞬时字段写入此流
         s.defaultWriteObject();
 
         // 写入大小
