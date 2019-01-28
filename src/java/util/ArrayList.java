@@ -717,13 +717,13 @@ public class ArrayList<E> extends AbstractList<E>
         s.readInt(); // ignored
 
         if (size > 0) {
-            // 像clone()方法 ，但根据大小而不是容量分配数组
+            // 像clone()方法，但根据大小而不是容量分配数组
             int capacity = calculateCapacity(elementData, size);
             SharedSecrets.getJavaOISAccess().checkArray(s, Object[].class, capacity);
             ensureCapacityInternal(size);
 
             Object[] a = elementData;
-            //读入所有元素
+            // 读入所有元素
             for (int i = 0; i < size; i++) {
                 a[i] = s.readObject();
             }
@@ -763,34 +763,34 @@ public class ArrayList<E> extends AbstractList<E>
      * 通用的迭代器实现
      */
     private class Itr implements Iterator<E> {
-        int cursor;       //游标，下一个元素的索引，默认初始化为0
-        int lastRet = -1; //上次访问的元素的位置
-        int expectedModCount = modCount;//迭代过程不运行修改数组，否则就抛出异常
+        int cursor;       // 游标，下一个元素的索引，默认初始化为0
+        int lastRet = -1; // 上次访问的元素的位置
+        int expectedModCount = modCount; // 迭代过程不运行修改数组，否则就抛出异常
 
-        //是否还有下一个
+        // 是否还有下一个
         public boolean hasNext() {
             return cursor != size;
         }
 
-        //下一个元素
+        // 下一个元素
         @SuppressWarnings("unchecked")
         public E next() {
-            checkForComodification();//检查数组是否被修改
+            checkForComodification(); // 检查数组是否被修改
             int i = cursor;
             if (i >= size)
                 throw new NoSuchElementException();
             Object[] elementData = ArrayList.this.elementData;
             if (i >= elementData.length)
                 throw new ConcurrentModificationException();
-            cursor = i + 1;//向后移动游标
-            return (E) elementData[lastRet = i];//设置访问的位置并返回这个值
+            cursor = i + 1; // 向后移动游标
+            return (E) elementData[lastRet = i]; // 设置访问的位置并返回这个值
         }
 
-        //删除元素
+        // 删除元素
         public void remove() {
             if (lastRet < 0)
                 throw new IllegalStateException();
-            checkForComodification();//检查数组是否被修改
+            checkForComodification();// 检查数组是否被修改
 
             try {
                 ArrayList.this.remove(lastRet);
@@ -811,6 +811,7 @@ public class ArrayList<E> extends AbstractList<E>
             if (i >= size) {
                 return;
             }
+            // TODO 触发
             final Object[] elementData = ArrayList.this.elementData;
             if (i >= elementData.length) {
                 throw new ConcurrentModificationException();
@@ -824,7 +825,7 @@ public class ArrayList<E> extends AbstractList<E>
             checkForComodification();
         }
 
-        //检查数组是否被修改
+        // 检查数组是否被修改
         final void checkForComodification() {
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
